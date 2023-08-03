@@ -51,7 +51,7 @@ public class CredentialController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid credential Id:" + id));
 
         model.addAttribute("credential", credential);
-        return "update-user";
+        return "update-credential";
     }
 
     @PostMapping("/update/{id}")
@@ -59,15 +59,19 @@ public class CredentialController {
                                    BindingResult result) {
         if (result.hasErrors()) {
             credential.setId(id);
-            return "update-user";
+            return "update-credential";
         }
+
+        String userId = credentialService.findById(id).get().getUserpass();
+        credential.setUserpass(userId);
         credentialService.save(credential);
-        return "redirect:/index";
+        return "redirect:/index?userId="+userId;
     }
 
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") long id) {
+        String userId = credentialService.findById(id).get().getUserpass();
         credentialService.delete(id);
-        return "redirect:/index";
+        return "redirect:/index?userId="+userId;
     }
 }
