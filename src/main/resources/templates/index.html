@@ -1,25 +1,26 @@
-<div th:switch="${users}">
-    <h2 th:case="null">No users yet!</h2>
+<div th:switch="${credentials}">
+    <h2 th:case="null">No credentials yet!</h2>
     <div th:case="*">
-        <h2>Users</h2>
+        <h2>Credentials</h2>
         <table>
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Email</th>
+                <th>Resource</th>
+                <th>Password</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.name}"></td>
-                <td th:text="${user.email}"></td>
-                <td><a th:href="@{/edit/{id}(id=${user.id})}">Edit</a></td>
-                <td><a th:href="@{/delete/{id}(id=${user.id})}">Delete</a></td>
+            <tr th:each="credential : ${credentials}">
+                <td th:text="${credential.resource}"></td>
+                <td th:text="${credential.password}"></td>
+                <td><a th:href="@{/edit/{id}(id=${credential.id})}">Edit</a></td>
+                <td><a th:href="@{/delete/{id}(id=${credential.id})}">Delete</a></td>
             </tr>
             </tbody>
         </table>
     </div>
-    <p><a href="/signup">Add a new user</a></p>
+    <p><a th:href="@{'/addcredential?userId=' + ${userId}}">Add a new credential</a></p>
+    <p><a th:href="@{'/'}">Log out</a></p>
 </div>

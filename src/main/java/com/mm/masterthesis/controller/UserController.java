@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -16,50 +15,60 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/index")
-    public String showUserList(Model model) {
-        model.addAttribute("users", userService.findAll());
-        return "index";
+    @GetMapping("/")
+    public String redirectLogin(Model model) {
+        model.addAttribute("user", new User());
+        return "redirect:/login";
     }
 
-    @GetMapping("/signup")
-    public String showSignUpForm() {
+    @GetMapping("/login")
+    public String showLoginForm() {
+        return "login";
+    }
+
+    @PostMapping("/auth")
+    public String checkLogin(@Valid User user, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "login";
+        }
+
+        if(user.getName().isEmpty() || user.getPassword().isEmpty()) {
+            model.addAttribute("emptyCredentials", true);
+            return "login";
+        }
+
+        if(userService.fullAuth(user)){
+            model.addAttribute("user", userService.findByName(user.getName()));
+            return "redirect:/index?userId="+userService.findByName(user.getName()).getId();
+        } else {
+            model.addAttribute("badCredentials", true);
+            return "login";
+        }
+    }
+
+
+    @GetMapping("/adduserform")
+    public String addUserForm() {
         return "add-user";
     }
 
     @PostMapping("/adduser")
-    public String addUser(@Valid User user, BindingResult result) {
+    public String addUser(@Valid User user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "add-user";
         }
-
-        userService.save(user);
-        return "redirect:/index";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String showUpdateForm(@PathVariable("id") long id, Model model) {
-        User user = userService.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-
-        model.addAttribute("user", user);
-        return "update-user";
-    }
-
-    @PostMapping("/update/{id}")
-    public String updateUser(@PathVariable("id") long id, @Valid User user,
-                             BindingResult result) {
-        if (result.hasErrors()) {
-            user.setId(id);
-            return "update-user";
+        if(user.getName().isEmpty() || user.getPassword().isEmpty()){
+            model.addAttribute("newUserEmpty", true);
+            return "add-user";
         }
-        userService.save(user);
-        return "redirect:/index";
-    }
 
-    @GetMapping("/delete/{id}")
-    public String deleteUser(@PathVariable("id") long id) {
-        userService.delete(id);
-        return "redirect:/index";
+        if(userService.auth(user)){
+            model.addAttribute("userExist", true);
+            return "add-user";
+        } else {
+            userService.save(user);
+            model.addAttribute("createdNewUser", true);
+            return "login";
+        }
     }
 }

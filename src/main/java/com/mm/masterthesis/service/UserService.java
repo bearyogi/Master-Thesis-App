@@ -17,8 +17,24 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public boolean auth(User user) {
+        return userRepository.findByName(user.getName()) != null;
+    }
+
+    public boolean fullAuth(User user) {
+        User user1 = userRepository.findByName(user.getName());
+        if(user1 != null) {
+            return user1.getName().equals(user.getName()) && user1.getPassword().equals(user.getPassword());
+        }
+        else return false;
+    }
+
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    public User findByName(String name) {
+        return userRepository.findByName(name);
     }
 
     public Optional<User> findById(Long id) {

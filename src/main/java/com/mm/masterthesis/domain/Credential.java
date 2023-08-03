@@ -16,24 +16,27 @@ import java.util.Objects;
 @Setter
 @ToString
 @Entity
-public class User {
+public class Credential {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank(message = "Name is mandatory")
-    private String name;
+    @NotBlank(message = "Resource name is mandatory")
+    private String resource;
 
     @NotBlank(message = "Password is mandatory")
     private String password;
+
+    @NotBlank(message = "User id is mandatory")
+    private String userpass;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        User user = (User) o;
-        return id != null && Objects.equals(id, user.id);
+        Credential credential = (Credential) o;
+        return id != null && Objects.equals(id, credential.id);
     }
 
     @Override

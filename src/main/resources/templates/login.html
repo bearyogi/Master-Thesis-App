@@ -1,0 +1,18 @@
+<head>
+    <title>Login page</title>
+</head>
+<body>
+<h1>Login page</h1>
+<p th:if="${badCredentials}" class="error">Wrong userf or password!</p>
+<p th:if="${emptyCredentials}" class="error">Empty user or password!</p>
+<p th:if="${createdNewUser}" class="error">Created new user!</p>
+<form th:action="@{/auth}" method="post">
+    <label for="name">Username</label>:
+    <input type="text" id="name" name="name" autofocus="autofocus" /> <br />
+    <label for="password">Password</label>:
+    <input type="password" id="password" name="password" /> <br />
+    <input type="submit" value="Log in" />
+</form>
+<p><a href="/adduserform">Add a new user</a></p>
+</body>
+</html>
