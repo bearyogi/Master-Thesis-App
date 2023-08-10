@@ -1,12 +1,13 @@
 <div th:switch="${credentials}">
     <h2 th:case="null">No credentials yet!</h2>
     <div th:case="*">
-        <h2>Credentials</h2>
+        <h2>ADMIN PANEL</h2>
         <table>
             <thead>
             <tr>
                 <th>Resource</th>
                 <th>Password</th>
+                <th>UserId</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -15,13 +16,12 @@
             <tr th:each="credential : ${credentials}">
                 <td th:text="${credential.resource}"></td>
                 <td th:text="${credential.password}"></td>
+                <td th:text="${credential.userpass}"></td>
                 <td><a th:href="@{/edit/{id}(id=${credential.id})}">Edit</a></td>
                 <td><a th:href="@{/delete/{id}(id=${credential.id})}">Delete</a></td>
             </tr>
             </tbody>
         </table>
     </div>
-    <p><a th:href="@{'/admin?userId=' + ${userId}}">Go to admin page</a></p>
-    <p><a th:href="@{'/addcredential?userId=' + ${userId}}">Add a new credential</a></p>
     <p><a th:href="@{'/'}">Log out</a></p>
 </div>

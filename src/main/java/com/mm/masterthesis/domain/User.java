@@ -28,6 +28,9 @@ public class User {
     @NotBlank(message = "Password is mandatory")
     private String password;
 
+    @NotBlank(message = "Role is mandatory")
+    private String role;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

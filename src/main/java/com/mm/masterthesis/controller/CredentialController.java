@@ -1,7 +1,9 @@
 package com.mm.masterthesis.controller;
 
 import com.mm.masterthesis.domain.Credential;
+import com.mm.masterthesis.domain.User;
 import com.mm.masterthesis.service.CredentialService;
+import com.mm.masterthesis.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -12,17 +14,33 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Objects;
+
 @Controller
 @RequiredArgsConstructor
 public class CredentialController {
 
     private final CredentialService credentialService;
+    private final UserService userService;
 
     @GetMapping("/index")
     public String showCredentialList(@RequestParam String userId, Model model) {
         model.addAttribute("credentials", credentialService.findAllForUser(userId));
         model.addAttribute("userId", userId);
         return "index";
+    }
+
+    @GetMapping("/admin")
+    public String showAdminPanel(@RequestParam String userId, Model model) {
+        User user = userService.findById(Long.valueOf(userId)).get();
+        if(Objects.equals(user.getRole(), "user") || user.getRole() == null || user.getRole().isEmpty()){
+            model.addAttribute("userId", userId);
+            return "admin-bad";
+        } else {
+            model.addAttribute("credentials", credentialService.findAll());
+            model.addAttribute("userId", userId);
+            return "admin";
+        }
     }
 
     @GetMapping("/addcredential")

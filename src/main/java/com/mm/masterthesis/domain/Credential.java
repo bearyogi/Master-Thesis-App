@@ -5,9 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.util.Objects;
@@ -16,6 +14,8 @@ import java.util.Objects;
 @Setter
 @ToString
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Credential {
 
     @Id
@@ -30,6 +30,7 @@ public class Credential {
 
     @NotBlank(message = "User id is mandatory")
     private String userpass;
+
 
     @Override
     public boolean equals(Object o) {

@@ -66,6 +66,7 @@ public class UserController {
             model.addAttribute("userExist", true);
             return "add-user";
         } else {
+            user.setRole("user");
             userService.save(user);
             model.addAttribute("createdNewUser", true);
             return "login";
