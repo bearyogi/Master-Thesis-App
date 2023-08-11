@@ -21,7 +21,17 @@
             </tbody>
         </table>
     </div>
+    <input type="text" id="nameInput" name="nameInput" />
+
+    <button th:onclick="salute()">Greet me!</button>
+
     <p><a th:href="@{'/admin?userId=' + ${userId}}">Go to admin page</a></p>
-    <p><a th:href="@{'/addcredential?userId=' + ${userId}}">Add a new credential</a></p>
+    <p><a th:href="@{'/addcredential?userId=' +${userId}}">Add a new credential</a></p>
     <p><a th:href="@{'/'}">Log out</a></p>
+
+    <script  th:inline="javascript">
+        function salute() {
+            eval('alert("' + document.getElementById("nameInput").value + '")');
+        }
+    </script>
 </div>
