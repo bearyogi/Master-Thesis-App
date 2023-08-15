@@ -19,15 +19,15 @@
                 <th>Nazwa</th>
                 <th>Hasło</th>
                 <th>Edycja</th>
-                <th>Usuń</th>
+                <th>Usuwanie</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="credential : ${credentials}">
                 <td th:text="${credential.resource}"></td>
                 <td th:text="${credential.password}"></td>
-                <td><a th:href="@{/edit/{id}(id=${credential.id})}">Edit</a></td>
-                <td><a th:href="@{/delete/{id}(id=${credential.id})}">Delete</a></td>
+                <td><a th:href="@{/edit/{id}(id=${credential.id})}">Edytuj</a></td>
+                <td><a th:href="@{/delete/{id}(id=${credential.id})}">Usuń</a></td>
             </tr>
             </tbody>
         </table>

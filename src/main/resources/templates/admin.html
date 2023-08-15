@@ -19,34 +19,23 @@
                 <th>Nazwa</th>
                 <th>Hasło</th>
                 <th>Edycja</th>
-                <th>Usuń</th>
+                <th>Usuwanie</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="credential : ${credentials}">
                 <td th:text="${credential.resource}"></td>
                 <td th:text="${credential.password}"></td>
-                <td><a th:href="@{/edit/{id}(id=${credential.id})}">Edit</a></td>
-                <td><a th:href="@{/delete/{id}(id=${credential.id})}">Delete</a></td>
+                <td><a th:href="@{/edit/{id}(id=${credential.id})}">Edytuj</a></td>
+                <td><a th:href="@{/delete/{id}(id=${credential.id})}">Usuń</a></td>
             </tr>
             </tbody>
         </table>
-    </div>
-    <div class="form-outline w-50">
-        <div class="input-group-prepend">
-            <input type="text" id="nameInput" name="nameInput" class="form-control"/>
-            <button th:onclick="salute()" class="btn btn-warning btn-xs" role="button">Przywitaj mnie!</button>
-        </div>
     </div>
 
     </br>
     <p><a th:href="@{'/'}" class="btn btn-info" role="button">Wyloguj</a></p>
 
-    <script  th:inline="javascript">
-        function salute() {
-            eval('alert("Witaj, ' + document.getElementById("nameInput").value + '")');
-        }
-    </script>
 </div>
 </body>
 </html>
