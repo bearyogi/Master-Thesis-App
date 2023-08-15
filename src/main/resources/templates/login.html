@@ -1,18 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Logowanie</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous" />
 </head>
 <body>
-<h1>Login page</h1>
-<p th:if="${badCredentials}" class="error">Wrong userf or password!</p>
-<p th:if="${emptyCredentials}" class="error">Empty user or password!</p>
-<p th:if="${createdNewUser}" class="error">Created new user!</p>
-<form th:action="@{/auth}" method="post">
-    <label for="name">Username</label>:
-    <input type="text" id="name" name="name" autofocus="autofocus" /> <br />
-    <label for="password">Password</label>:
-    <input type="password" id="password" name="password" /> <br />
-    <input type="submit" value="Log in" />
-</form>
-<p><a href="/adduserform">Add a new user</a></p>
+<div class="container-fluid text-center">
+    <form th:action="@{/auth}" method="post" style="max-width: 350px; margin: 0 auto;">
+
+        <div th:if="${emptyCredentials}">
+            <p class="text-danger">Nazwa i hasło są wymagane!</p>
+        </div>
+
+        <div th:if="${badCredentials}">
+            <p class="text-warning">Wprowadzone dane są błędne</p>
+        </div>
+
+        <div th:if="${createdNewUser}">
+            <p class="text-warning">Utworzono nowego użytkownika!</p>
+        </div>
+
+
+        <div class="border border-secondary p-3 rounded">
+            <p>Zaloguj się</p>
+            <p>
+                <input type="name" name="name" class="form-control" placeholder="Nazwa" required autofocus/>
+            </p>
+            <p>
+                <input type="password" name="password" class="form-control" placeholder="Hasło" required />
+            </p>
+            <p>
+                <input type="submit" value="Login" class="btn btn-primary" />
+            </p>
+            </br>
+            <a href="/adduserform" class="btn btn-info" role="button">Dodaj użytkownika</a>
+        </div>
+    </form>
+</div>
 </body>
 </html>

@@ -36,6 +36,7 @@ dependencies {
 	implementation 'com.okta.spring:okta-spring-boot-starter:3.0.4'
 	implementation 'org.springframework.boot:spring-boot-starter-security:2.6.3'
 	implementation 'javax.persistence:javax.persistence-api:2.2'
+	implementation 'org.webjars:bootstrap:5.3.1'
 
 	compileOnly 'org.projectlombok:lombok'
 

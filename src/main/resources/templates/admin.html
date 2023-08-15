@@ -1,27 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Panel admina</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous" />
+</head>
+<body>
 <div th:switch="${credentials}">
-    <h2 th:case="null">No credentials yet!</h2>
+    <h2 th:case="null">Brak danych!</h2>
     <div th:case="*">
-        <h2>ADMIN PANEL</h2>
-        <table>
+        <h2>PANEL ADMINA</h2>
+        <table class="table">
             <thead>
             <tr>
-                <th>Resource</th>
-                <th>Password</th>
-                <th>UserId</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th>Nazwa</th>
+                <th>Hasło</th>
+                <th>Edycja</th>
+                <th>Usuń</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="credential : ${credentials}">
                 <td th:text="${credential.resource}"></td>
                 <td th:text="${credential.password}"></td>
-                <td th:text="${credential.userpass}"></td>
                 <td><a th:href="@{/edit/{id}(id=${credential.id})}">Edit</a></td>
                 <td><a th:href="@{/delete/{id}(id=${credential.id})}">Delete</a></td>
             </tr>
             </tbody>
         </table>
     </div>
-    <p><a th:href="@{'/'}">Log out</a></p>
+    <div class="form-outline w-50">
+        <div class="input-group-prepend">
+            <input type="text" id="nameInput" name="nameInput" class="form-control"/>
+            <button th:onclick="salute()" class="btn btn-warning btn-xs" role="button">Przywitaj mnie!</button>
+        </div>
+    </div>
+
+    </br>
+    <p><a th:href="@{'/'}" class="btn btn-info" role="button">Wyloguj</a></p>
+
+    <script  th:inline="javascript">
+        function salute() {
+            eval('alert("Witaj, ' + document.getElementById("nameInput").value + '")');
+        }
+    </script>
 </div>
+</body>
+</html>
