@@ -27,6 +27,9 @@ public class WebConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.headers().frameOptions();
+        http.headers().xssProtection().and().contentSecurityPolicy("script-src 'self'");
+
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests

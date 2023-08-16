@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,10 +19,13 @@ import java.util.stream.Collectors;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
-
+    private final LoginAttemptService loginAttemptService;
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+        if (loginAttemptService.isBlocked()) {
+            throw new RuntimeException("blocked");
+        }
         User user = userRepository.findByName(name);
         if (user != null) {
             return new org.springframework.security.core.userdetails.User(user.getName(),
@@ -35,9 +37,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private Collection < ? extends GrantedAuthority> mapRolesToAuthorities(Collection <Role> roles) {
-        Collection < ? extends GrantedAuthority> mapRoles = roles.stream()
+        return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
-        return mapRoles;
     }
 }
