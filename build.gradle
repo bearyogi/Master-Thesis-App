@@ -38,6 +38,12 @@ dependencies {
 	implementation 'javax.persistence:javax.persistence-api:2.2'
 	implementation 'org.webjars:bootstrap:5.3.1'
 
+	implementation 'org.apache.shiro:shiro-spring-boot-web-starter:1.8.0'
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	implementation 'javax.validation:validation-api:2.0.1.Final'
+	implementation 'commons-io:commons-io:2.13.0'
+
+	compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
 	compileOnly 'org.projectlombok:lombok'
 
 	runtimeOnly 'com.h2database:h2'

@@ -31,6 +31,9 @@ public class User {
     @NotBlank(message = "Role is mandatory")
     private String role;
 
+    @NotBlank(message = "Salt is mandatory")
+    private String salt;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
