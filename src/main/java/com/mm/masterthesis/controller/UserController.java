@@ -1,6 +1,9 @@
 package com.mm.masterthesis.controller;
 
 import com.mm.masterthesis.domain.User;
+import com.mm.masterthesis.jaas.ConsoleCallbackHandler;
+import com.mm.masterthesis.jaas.InMemoryLoginModule;
+import com.mm.masterthesis.jaas.LoginService;
 import com.mm.masterthesis.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,10 +13,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.security.auth.Subject;
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
+
 @Controller
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final LoginService loginService;
+    private final InMemoryLoginModule inMemoryLoginModule;
+
 
     @GetMapping("/")
     public String redirectLogin(Model model) {
@@ -27,7 +37,12 @@ public class UserController {
     }
 
     @PostMapping("/auth")
-    public String checkLogin(@Valid User user, BindingResult result, Model model) {
+    public String checkLogin(@Valid User user, BindingResult result, Model model) throws LoginException {
+        ConsoleCallbackHandler consoleCallbackHandler = new ConsoleCallbackHandler(userService);
+        consoleCallbackHandler.setUsername(user.getName());
+        LoginContext loginContext = new LoginContext("jaasApplication", consoleCallbackHandler);
+        Subject subject = loginService.login(loginContext);
+
         if (result.hasErrors()) {
             return "login";
         }
@@ -37,9 +52,11 @@ public class UserController {
             return "login";
         }
 
-        if(userService.fullAuth(user)){
+        if(subject != null){
             model.addAttribute("user", userService.findByName(user.getName()));
-            return "redirect:/index?userId="+userService.findByName(user.getName()).getId();
+            String name = subject.getPrincipals().stream().findFirst().toString().substring(9);
+            name = name.substring(0, name.length()-1);
+            return "redirect:/index?userId="+userService.findByName(name).getId();
         } else {
             model.addAttribute("badCredentials", true);
             return "login";
