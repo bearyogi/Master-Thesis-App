@@ -55,7 +55,6 @@ public class UserController {
         consoleCallbackHandler.setUsername(user.getName());
         loginContext = new LoginContext("jaasApplication", consoleCallbackHandler);
         subject = loginService.login(loginContext);
-
         if (result.hasErrors()) {
             return "login";
         }
