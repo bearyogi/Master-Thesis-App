@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface CredentialRepository extends JpaRepository<Credential, Long>, CredRepository {
-    //List<Credential> findAllByUserpass(String id);
+public interface CredentialRepository extends JpaRepository<Credential, Long> {
+    List<Credential> findAllByUserpass(String id);
 }
